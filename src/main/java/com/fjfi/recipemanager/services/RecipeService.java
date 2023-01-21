@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class RecipeService {
@@ -35,4 +38,9 @@ public class RecipeService {
     }
 
 
+    public List<Recipe> findAll() {
+        var data = recipeRepository.findAll();
+        System.out.println(data);
+        return (List<Recipe>) recipeRepository.findAll();
+    }
 }

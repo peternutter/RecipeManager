@@ -30,28 +30,26 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @PostMapping("/recipe/new")
-    public ResponseEntity<Object> postRecipe(@Valid @RequestBody Recipe recipe, BindingResult result) {
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            Map<String, String> errorMessages = new HashMap<>();
-            for (ObjectError error : errors) {
-                errorMessages.put(error.getObjectName(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/recipes")
+    public List<Recipe> getRecipes() {
+        return recipeService.findAll();
+    }
+
+    @PostMapping("/recipes/new")
+    public ResponseEntity<Object> postRecipe(@Valid @RequestBody Recipe recipe) {
+
         Recipe newRecipe = recipeService.save(recipe);
         return ResponseEntity.ok(Map.of("id", newRecipe.getId()));
     }
 
-    @GetMapping("/recipe/{id}")
+    @GetMapping("/recipes/{id}")
     public Recipe getRecipe(@PathVariable("id") @Min(1) long id) {
         return recipeService.findRecipeById(id);
 
 
     }
 
-    @DeleteMapping("/recipe/{id}")
+    @DeleteMapping("/recipes/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteRecipe(@PathVariable long id) {
         recipeService.deleteRecipeById(id);
