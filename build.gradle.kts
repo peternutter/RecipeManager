@@ -23,6 +23,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("com.google.code.gson:gson")
     implementation("com.jayway.jsonpath:json-path")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")

@@ -7,10 +7,9 @@ import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +52,28 @@ public class RecipeController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteRecipe(@PathVariable long id) {
         recipeService.deleteRecipeById(id);
+    }
+
+    @PutMapping("/recipe/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void updateRecipe(@PathVariable long id, @Valid @RequestBody Recipe recipe) {
+        recipeService.updateRecipe(id, recipe);
+    }
+
+    @GetMapping("/recipe/search")
+    public List<Recipe> searchRecipes(@RequestParam HashMap<String, String> params) {
+        if (params.size() != 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid number of search parameters");
+        }
+
+        if (params.containsKey("name")) {
+            return recipeService.findByName(params.get("name"));
+        } else if (params.containsKey("category")) {
+            return recipeService.findByCategory(params.get("category"));
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid search parameter");
+        }
+
     }
 
 }
