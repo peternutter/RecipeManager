@@ -54,13 +54,13 @@ public class RecipeController {
         recipeService.deleteRecipeById(id);
     }
 
-    @PutMapping("/recipe/{id}")
+    @PutMapping("/recipes/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void updateRecipe(@PathVariable long id, @Valid @RequestBody Recipe recipe) {
         recipeService.updateRecipe(id, recipe);
     }
 
-    @GetMapping("/recipe/search")
+    @GetMapping("/recipes/search")
     public List<Recipe> searchRecipes(@RequestParam HashMap<String, String> params) {
         if (params.size() != 1) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid number of search parameters");
